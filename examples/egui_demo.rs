@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use egui_demo_lib::DemoWindows;
 use ggegui::Gui;
 use ggez::conf::WindowMode;

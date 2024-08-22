@@ -105,8 +105,19 @@ impl Input {
 	}
 
 	/// lets you know the rotation of the mouse wheel
-	pub fn mouse_wheel_event(&mut self, x: f32, y: f32) {
-		self.raw.events.push(egui::Event::Scroll(vec2(x, y)));
+	pub fn mouse_wheel_event(&mut self, ctx: &ggez::Context, x: f32, y: f32) {
+		self.raw.events.push(egui::Event::MouseWheel {
+			delta: vec2(x, y),
+			unit: egui::MouseWheelUnit::Point,
+			modifiers: egui::Modifiers {
+				alt: ctx.keyboard.is_mod_active(KeyMods::ALT),
+				ctrl: ctx.keyboard.is_mod_active(KeyMods::CTRL),
+				shift: ctx.keyboard.is_mod_active(KeyMods::SHIFT),
+				// TODO proper Mac support
+				mac_cmd: ctx.keyboard.is_mod_active(KeyMods::LOGO),
+				command: ctx.keyboard.is_mod_active(KeyMods::CTRL),
+			},
+		});
 	}
 
 	/// lets know what character is pressed on the keyboard
