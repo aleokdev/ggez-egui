@@ -128,6 +128,7 @@ impl Drawable for Gui {
 			.draw(canvas, self.input.scale_factor);
 	}
 
+	#[cfg(feature = "impl_drawable_dimensions")]
 	fn dimensions(&self, _gfx: &impl Has<GraphicsContext>) -> Option<graphics::Rect> {
 		None
 	}

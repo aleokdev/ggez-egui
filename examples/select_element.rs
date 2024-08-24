@@ -44,6 +44,7 @@ impl Drawable for Element {
 		)
 	}
 
+	#[cfg(feature = "impl_drawable_dimensions")]
 	fn dimensions(&self, _gfx: &impl Has<GraphicsContext>) -> Option<graphics::Rect> {
 		None
 	}

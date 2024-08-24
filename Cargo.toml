@@ -10,6 +10,10 @@ description = "A simple implementation of egui for ggez"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+impl_drawable_dimensions = []
+default = ["impl_drawable_dimensions"]
+
 [dependencies]
 egui = "0.28.1"
 ggez = "0.9.1"
