@@ -11,7 +11,7 @@ pub struct Painter {
 }
 
 impl Painter {
-	pub fn draw(&mut self, canvas: &mut graphics::Canvas, scale_factor: f32) {
+	pub fn draw(&mut self, canvas: &mut graphics::Canvas, param: graphics::DrawParam) {
 		let prev_blend = canvas.blend_mode();
 		canvas.set_blend_mode(BlendMode {
 			color: BlendComponent {
@@ -28,11 +28,7 @@ impl Painter {
 		for (id, mesh, clip) in self.paint_jobs.iter() {
 			if clip.w > 0. && clip.h > 0. {
 				canvas.set_scissor_rect(*clip).unwrap();
-				canvas.draw_textured_mesh(
-					mesh.clone(),
-					self.textures[id].clone(),
-					graphics::DrawParam::default().scale([scale_factor, scale_factor]),
-				);
+				canvas.draw_textured_mesh(mesh.clone(), self.textures[id].clone(), param);
 			}
 		}
 		canvas.set_default_scissor_rect();

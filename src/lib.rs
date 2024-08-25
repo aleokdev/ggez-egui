@@ -4,6 +4,7 @@ mod painter;
 pub use egui;
 use ggez::{
 	context::Has,
+	glam::Vec3,
 	graphics::{self, Canvas, DrawParam, Drawable, GraphicsContext},
 };
 pub use input::Input;
@@ -121,11 +122,19 @@ impl Gui {
 }
 
 impl Drawable for Gui {
-	fn draw(&self, canvas: &mut Canvas, _param: impl Into<DrawParam>) {
+	fn draw(&self, canvas: &mut Canvas, param: impl Into<DrawParam>) {
+		let param: DrawParam = param.into();
+		let transform = param.transform.to_bare_matrix();
+		let scaled_param = ggez::glam::Mat4::from(transform)
+			* ggez::glam::Mat4::from_scale(Vec3::new(
+				self.input.scale_factor,
+				self.input.scale_factor,
+				1.,
+			));
 		self.painter
 			.lock()
 			.unwrap()
-			.draw(canvas, self.input.scale_factor);
+			.draw(canvas, param.transform(scaled_param));
 	}
 
 	#[cfg(feature = "impl_drawable_dimensions")]
